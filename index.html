@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王俊 & 陈茗茗的订婚邀请</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            overflow-x: hidden;
+        }
+
+        /* 开场动画页面 */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 3s ease-in-out 2s forwards;
+        }
+
+        .splash-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            animation: slideDown 1s ease-out;
+        }
+
+        .splash-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            animation: slideUp 1s ease-out 0.5s both;
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 182, 193, 0.8);
+            animation: float 6s infinite linear;
+        }
+
+        /* 主要页面结构 */
+        .main-content {
+            opacity: 0;
+            animation: fadeIn 1s ease-in 3s forwards;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* 新人介绍页 */
+        .intro-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        }
+
+        .couple-card {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .couple-photos {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .photo-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .names {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .love-message {
+            font-size: 1.1rem;
+            color: #666;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* 订婚信息页 */
+        .info-section {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .event-title {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #d63384;
+        }
+
+        .map-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.3s;
+        }
+
+        .map-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* AI互动页面 */
+        .ai-section {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        }
+
+        .ai-container {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 20px;
+        }
+
+        .upload-area {
+            border: 3px dashed #84fab0;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .upload-area:hover {
+            background: rgba(132, 250, 176, 0.1);
+        }
+
+        .upload-area.dragover {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.3s;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .generate-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .result-area {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(132, 250, 176, 0.1);
+            border-radius: 15px;
+            display: none;
+        }
+
+        .result-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* 祝福留言页 */
+        .blessing-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .blessing-container {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .blessing-form {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            color: #333;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .blessing-list {
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .blessing-item {
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .blessing-author {
+            font-weight: bold;
+            color: #ff6b6b;
+            margin-bottom: 5px;
+        }
+
+        .blessing-text {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 确认参与页 */
+        .confirm-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .confirm-container {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 20px;
+        }
+
+        .attendance-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .option-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            min-width: 120px;
+        }
+
+        .option-btn.attend {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .option-btn.not-attend {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            color: white;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .statistics {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* 音乐控制 */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control.playing {
+            animation: rotate 2s linear infinite;
+        }
+
+        /* 导航点 */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot.active {
+            background: #ff6b6b;
+            transform: scale(1.3);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .splash-title {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 20px 15px;
+            }
+
+            .couple-card,
+            .info-card,
+            .ai-container,
+            .blessing-container,
+            .confirm-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .couple-photos {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .photo-placeholder {
+                width: 100px;
+                height: 100px;
+                font-size: 16px;
+            }
+
+            .names {
+                font-size: 1.8rem;
+            }
+
+            .event-title {
+                font-size: 2rem;
+            }
+
+            .info-item {
+                font-size: 1.1rem;
+            }
+
+            .attendance-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-dots {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 开场动画 -->
+    <div class="splash-screen">
+        <div class="splash-title">💕</div>
+        <div class="splash-subtitle">王俊 & 陈茗茗 邀请您</div>
+    </div>
+
+    <!-- 飘落的心形 -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- 主要内容 -->
+    <div class="main-content">
+        <!-- 新人介绍页 -->
+        <section class="section intro-section" id="intro">
+            <div class="couple-card">
+                <div class="couple-photos">
+                    <div class="photo-placeholder">王俊</div>
+                    <div class="photo-placeholder">陈茗茗</div>
+                </div>
+                <div class="names">王俊 & 陈茗茗</div>
+                <div class="love-message">
+                    "在最美的年华遇见你，<br>
+                    是我此生最大的幸运。<br>
+                    愿与你携手同行，<br>
+                    共度人生每一个美好时光。"
+                </div>
+            </div>
+        </section>
+
+        <!-- 订婚信息页 -->
+        <section class="section info-section" id="info">
+            <div class="info-card">
+                <div class="event-title">💍 订婚典礼</div>
+                <div class="info-item">
+                    <span class="info-icon">📅</span>
+                    <span>2025年10月2日（农历九月初十）</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🕐</span>
+                    <span>午宴时间：11:30</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📍</span>
+                    <span>浙江省台州市温岭市泽国镇拉富酒店</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">💌</span>
+                    <span>诚挚邀请您的到来，共同见证我们的幸福时刻</span>
+                </div>
+                <button class="map-btn" onclick="openMap()">📍 查看位置</button>
+            </div>
+        </section>
+
+        <!-- AI互动页面 -->
+        <section class="section ai-section" id="ai">
+            <div class="ai-container">
+                <h2>🎨 AI生成专属祝福</h2>
+                <p style="margin-bottom: 20px; color: #666;">上传您的照片，AI将为您生成专属的订婚祝福图片！</p>
+                
+                <div class="upload-area" id="uploadArea">
+                    <div>
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📸</div>
+                        <div>点击或拖拽上传照片</div>
+                        <div style="font-size: 0.9rem; color: #999; margin-top: 5px;">支持 JPG、PNG 格式</div>
+                    </div>
+                    <input type="file" class="file-input" id="fileInput" accept="image/*">
+                </div>
+
+                <button class="generate-btn" id="generateBtn">
+                    ✨ 生成祝福图片
+                </button>
+
+                <div class="result-area" id="resultArea">
+                    <img class="result-image" id="resultImage" alt="AI生成的祝福图片">
+                    <div style="margin-top: 10px;">
+                        <button class="generate-btn" onclick="downloadImage()">💾 保存图片</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 祝福留言页 -->
+        <section class="section blessing-section" id="blessing">
+            <div class="blessing-container">
+                <h2>💝 留下您的祝福</h2>
+                
+                <div class="blessing-form">
+                    <div class="form-group">
+                        <label>您的姓名：</label>
+                        <input type="text" id="blessingName" placeholder="请输入您的姓名">
+                    </div>
+                    <div class="form-group">
+                        <label>祝福留言：</label>
+                        <textarea id="blessingText" rows="4" placeholder="写下您对新人的祝福吧..."></textarea>
+                    </div>
+                    <button class="submit-btn" onclick="submitBlessing()">💌 送出祝福</button>
+                </div>
+
+                <div class="blessing-list" id="blessingList">
+                    <!-- 祝福留言将在这里显示 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 确认参与页 -->
+        <section class="section confirm-section" id="confirm">
+            <div class="confirm-container">
+                <h2>📋 参与确认</h2>
+                <p style="margin-bottom: 20px; color: #666;">请确认您是否能够参加我们的订婚典礼</p>
+                
+                <div class="attendance-options">
+                    <button class="option-btn attend" onclick="confirmAttendance(true)">
+                        ✅ 我会参加
+                    </button>
+                    <button class="option-btn not-attend" onclick="confirmAttendance(false)">
+                        ❌ 无法参加
+                    </button>
+                </div>
+
+                <div class="statistics" id="statistics">
+                    <div class="stat-item">
+                        <span>总访问量：</span>
+                        <span id="totalViews">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>确认参加：</span>
+                        <span id="attendCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>祝福留言：</span>
+                        <span id="blessingCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>AI互动：</span>
+                        <span id="aiCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 音乐控制 -->
+    <button class="music-control" id="musicControl" onclick="toggleMusic()">🎵</button>
+    <audio id="bgMusic" loop>
+        <!-- 这里可以添加背景音乐文件 -->
+        <!-- <source src="wedding-music.mp3" type="audio/mpeg"> -->
+    </audio>
+
+    <!-- 导航点 -->
+    <div class="nav-dots">
+        <div class="nav-dot active" onclick="scrollToSection(0)"></div>
+        <div class="nav-dot" onclick="scrollToSection(1)"></div>
+        <div class="nav-dot" onclick="scrollToSection(2)"></div>
+        <div class="nav-dot" onclick="scrollToSection(3)"></div>
+        <div class="nav-dot" onclick="scrollToSection(4)"></div>
+    </div>
+
+    <script>
+        // 全局数据存储
+        let appData = {
+            views: 0,
+            attendees: 0,
+            blessings: [],
+            aiGenerations: 0,
+            currentUser: null
+        };
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            createFloatingHearts();
+            setupScrollHandlers();
+            setupDragDrop();
+            loadAppData();
+        });
+
+        // 初始化应用
+        function initializeApp() {
+            // 增加访问量
+            appData.views++;
+            updateStatistics();
+            
+            // 设置音乐控制
+            const musicControl = document.getElementById('musicControl');
+            const bgMusic = document.getElementById('bgMusic');
+            
+            // 由于没有实际音乐文件，这里模拟音乐播放状态
+            let isPlaying = false;
+            
+            window.toggleMusic = function() {
+                isPlaying = !isPlaying;
+                musicControl.textContent = isPlaying ? '⏸️' : '🎵';
+                if (isPlaying) {
+                    musicControl.classList.add('playing');
+                } else {
+                    musicControl.classList.remove('playing');
+                }
+            };
+        }
+
+        // 创建飘落的心形
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💕';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                
+                container.appendChild(heart);
+                
+                // 6秒后移除心形
+                setTimeout(() => {
+                    if (heart.parentNode) {
+                        heart.parentNode.removeChild(heart);
+                    }
+                }, 6000);
+            }, 800);
+        }
+
+        // 设置滚动处理
+        function setupScrollHandlers() {
+            const sections = document.querySelectorAll('.section');
+            const navDots = document.querySelectorAll('.nav-dot');
+
+            function updateActiveSection() {
+                let current = 0;
+                sections.forEach((section, index) => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        current = index;
+                    }
+                });
+
+                navDots.forEach((dot, index) => {
+                    if (index === current) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveSection);
+        }
+
+        // 滚动到指定section
+        function scrollToSection(index) {
+            const sections = document.querySelectorAll('.section');
+            sections[index].scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // 设置拖拽上传
+        function setupDragDrop() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const generateBtn = document.getElementById('generateBtn');
+
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileUpload(files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
+
+            generateBtn.addEventListener('click', generateAIImage);
+        }
+
+        // 处理文件上传
+        function handleFileUpload(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('请上传图片文件！');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const uploadArea = document.getElementById('uploadArea');
+                const generateBtn = document.getElementById('generateBtn');
+                
+                uploadArea.innerHTML = `
+                    <img src="${e.target.result}" style="max-width: 100%; max-height: 150px; border-radius: 10px;">
+                    <div style="margin-top: 10px;">照片已准备就绪</div>
+                `;
+                
+                generateBtn.classList.add('active');
+                generateBtn.dataset.imageData = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 生成AI图片（模拟）
+        function generateAIImage() {
+            const generateBtn = document.getElementById('generateBtn');
+            const resultArea = document.getElementById('resultArea');
+            const resultImage = document.getElementById('resultImage');
+
+            if (!generateBtn.classList.contains('active')) {
+                return;
+            }
+
+            generateBtn.textContent = '🎨 AI创作中...';
+            generateBtn.style.opacity = '0.5';
+
+            // 模拟AI生成过程
+            setTimeout(() => {
+                // 这里应该调用实际的AI API
+                // 现在使用一个示例图片
+                const sampleImages = [
+                    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZmY5YTllO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZWNmZWY7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0idXJsKCNncmFkaWVudCkiLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNTAiIHI9IjgwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuOSkiIHN0cm9rZT0iI2ZmNmI2YiIgc3Ryb2tlLXdpZHRoPSI0Ii8+CiAgPHRleHQgeD0iMjAwIiB5PSIxNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZjZiNmIiIGZvbnQtc2l6ZT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCI+8J+RpDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzMzMzMzMyIgZm9udC1zaXplPSIyOCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXdlaWdodD0iYm9sZCI+6K2d5oKo5paw5pazPC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iMjkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2NjY2IiBmb250LXNpemU9IjE4IiBmb250LWZhbWlseT0iQXJpYWwiPuiuouWpmuW9seW8j++8jOW5uOemj+e+juWlvTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmNmI2YiIgZm9udC1zaXplPSIzMCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn5KIPC90ZXh0Pgo8L3N2Zz4K',
+                    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iYmciIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNhMThjZDE7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZiYzJlYjtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE2MCIgcj0iNjAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45KSIgc3Ryb2tlPSIjZDYzMzg0IiBzdHJva2Utd2lkdGg9IjMiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE3MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2Q2MzM4NCIgZm9udC1zaXplPSIyMCIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn5GMPC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iMjMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtd2VpZ2h0PSJib2xkIj7lm73pg4bniLHmg4XkuI3ms4E8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIyNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjY2NjYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtZmFtaWx5PSJBcmlhbCI+MjAyNeW5tDEw5pyIMuaXpTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjMwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2Q2MzM4NCIgZm9udC1zaXplPSIzMiIgZm9udC1mYW1pbHk9IkFyaWFsIj7wn5OEPC90ZXh0Pgo8L3N2Zz4K'
+                ];
+                
+                const randomImage = sampleImages[Math.floor(Math.random() * sampleImages.length)];
+                resultImage.src = randomImage;
+                resultArea.style.display = 'block';
+                
+                generateBtn.textContent = '✨ 重新生成';
+                generateBtn.style.opacity = '1';
+                
+                // 增加AI生成计数
+                appData.aiGenerations++;
+                updateStatistics();
+                
+                // 滚动到结果区域
+                resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 2000);
+        }
+
+        // 下载图片
+        function downloadImage() {
+            const resultImage = document.getElementById('resultImage');
+            const link = document.createElement('a');
+            link.download = '订婚祝福_' + new Date().getTime() + '.png';
+            link.href = resultImage.src;
+            link.click();
+        }
+
+        // 提交祝福
+        function submitBlessing() {
+            const name = document.getElementById('blessingName').value.trim();
+            const text = document.getElementById('blessingText').value.trim();
+            
+            if (!name || !text) {
+                alert('请填写完整的姓名和祝福内容！');
+                return;
+            }
+            
+            const blessing = {
+                id: Date.now(),
+                name: name,
+                text: text,
+                time: new Date().toLocaleString('zh-CN')
+            };
+            
+            appData.blessings.unshift(blessing);
+            updateBlessingList();
+            updateStatistics();
+            
+            // 清空表单
+            document.getElementById('blessingName').value = '';
+            document.getElementById('blessingText').value = '';
+            
+            // 显示成功提示
+            alert('祝福已送达！感谢您的祝福 💕');
+        }
+
+        // 更新祝福列表
+        function updateBlessingList() {
+            const blessingList = document.getElementById('blessingList');
+            
+            if (appData.blessings.length === 0) {
+                blessingList.innerHTML = '<div style="text-align: center; color: #999; padding: 40px;">还没有祝福留言，快来留下第一个祝福吧！</div>';
+                return;
+            }
+            
+            blessingList.innerHTML = appData.blessings.map(blessing => `
+                <div class="blessing-item">
+                    <div class="blessing-author">${blessing.name} · ${blessing.time}</div>
+                    <div class="blessing-text">${blessing.text}</div>
+                </div>
+            `).join('');
+        }
+
+        // 确认参与
+        function confirmAttendance(willAttend) {
+            const message = willAttend ? 
+                '感谢您确认参加我们的订婚典礼！期待与您共度这个美好时刻 💕' : 
+                '理解您无法参加，感谢您的祝福！希望有机会再相聚 🙏';
+                
+            alert(message);
+            
+            if (willAttend) {
+                appData.attendees++;
+                updateStatistics();
+            }
+        }
+
+        // 更新统计数据
+        function updateStatistics() {
+            document.getElementById('totalViews').textContent = appData.views;
+            document.getElementById('attendCount').textContent = appData.attendees;
+            document.getElementById('blessingCount').textContent = appData.blessings.length;
+            document.getElementById('aiCount').textContent = appData.aiGenerations;
+            
+            // 保存数据到本地存储
+            saveAppData();
+        }
+
+        // 打开地图
+        function openMap() {
+            const address = '浙江省台州市温岭市泽国镇拉富酒店';
+            const encodedAddress = encodeURIComponent(address);
+            
+            // 尝试打开不同的地图应用
+            const mapUrls = [
+                `https://uri.amap.com/marker?position=121.036,28.372&name=${encodedAddress}&src=myapp`,
+                `https://map.baidu.com/search/${encodedAddress}`,
+                `https://maps.google.com/maps?q=${encodedAddress}`
+            ];
+            
+            // 优先使用高德地图（国内常用）
+            window.open(mapUrls[0], '_blank');
+        }
+
+        // 保存应用数据
+        function saveAppData() {
+            try {
+                const data = {
+                    views: appData.views,
+                    attendees: appData.attendees,
+                    blessings: appData.blessings,
+                    aiGenerations: appData.aiGenerations,
+                    lastUpdate: new Date().toISOString()
+                };
+                // 注意：这里使用变量存储，因为在Claude环境中不能使用localStorage
+                window.engagementData = data;
+            } catch (e) {
+                console.log('数据保存失败，使用内存存储');
+            }
+        }
+
+        // 加载应用数据
+        function loadAppData() {
+            try {
+                const saved = window.engagementData;
+                if (saved) {
+                    appData.views = saved.views || 0;
+                    appData.attendees = saved.attendees || 0;
+                    appData.blessings = saved.blessings || [];
+                    appData.aiGenerations = saved.aiGenerations || 0;
+                }
+            } catch (e) {
+                console.log('数据加载失败，使用默认数据');
+            }
+            
+            // 初始化一些示例数据
+            if (appData.blessings.length === 0) {
+                appData.blessings = [
+                    {
+                        id: 1,
+                        name: '张小明',
+                        text: '恭喜俊哥和茗茗！愿你们永远幸福美满，白头偕老！',
+                        time: '2025-09-05 14:30'
+                    },
+                    {
+                        id: 2,
+                        name: '李美丽',
+                        text: '太感动了！看到你们走到一起真的很开心，祝福你们！💕',
+                        time: '2025-09-05 15:45'
+                    }
+                ];
+                appData.attendees = 15;
+                appData.aiGenerations = 8;
+            }
+            
+            updateBlessingList();
+            updateStatistics();
+        }
+
+        // 添加平滑滚动和视差效果
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach(heart => {
+                const speed = 0.5;
+                heart.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // 添加页面可见性变化处理
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // 页面隐藏时暂停动画
+                document.body.style.animationPlayState = 'paused';
+            } else {
+                // 页面显示时恢复动画
+                document.body.style.animationPlayState = 'running';
+            }
+        });
+
+        // 添加触摸手势支持
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            const swipeThreshold = 50;
+            const diff = touchStartY - touchEndY;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                const sections = document.querySelectorAll('.section');
+                const currentSection = Array.from(sections).findIndex(section => {
+                    const rect = section.getBoundingClientRect();
+                    return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+                });
+                
+                if (diff > 0 && currentSection < sections.length - 1) {
+                    // 向上滑动，到下一个section
+                    scrollToSection(currentSection + 1);
+                } else if (diff < 0 && currentSection > 0) {
+                    // 向下滑动，到上一个section
+                    scrollToSection(currentSection - 1);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
